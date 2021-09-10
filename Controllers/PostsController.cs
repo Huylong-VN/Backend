@@ -92,12 +92,12 @@ namespace Backend.Controllers
             return BadRequest(kq);
         }
 
-        [HttpDelete("imagepost/{Id}")]
-        public async Task<IActionResult> RemoveImagePost(Guid Id)
-        {
-            var kq = await _postService.RemoveImagePost(Id);
-            if (kq == true) return Ok(kq);
-            return BadRequest(kq);
-        }
+        //[HttpDelete("imagepost/{Id}")]
+        //public async Task<IActionResult> RemoveImagePost(Guid Id)
+        //{
+        //    var kq = await _postService.RemoveImagePost(Id);
+        //    if (kq == true) return Ok(kq);
+        //    return BadRequest(kq);
+        //}
     }
 }

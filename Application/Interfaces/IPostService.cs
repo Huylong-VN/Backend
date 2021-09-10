@@ -26,6 +26,6 @@ namespace Backend.Application.Interfaces
 
         Task<List<ListResultDto>> GetListCategory();
 
-        Task<bool> RemoveImagePost(Guid Id);
+        //Task<bool> RemoveImagePost(Guid Id);
     }
 }
