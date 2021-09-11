@@ -44,6 +44,8 @@ namespace Backend
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IRegionService, RegionService>();
+            services.AddCors();
+
             //Controller
             services.AddControllersWithViews();
             // DB COntexxt
@@ -129,14 +131,14 @@ namespace Backend
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseRouting();
-
-            app.UseAuthorization();
             // global cors policy
             app.UseCors(x => x
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .SetIsOriginAllowed(origin => true) // allow any origin
                 .AllowCredentials()); // allow credentials
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
