@@ -1,9 +1,11 @@
+using Backend.Application.Authorization;
 using Backend.Application.Implements;
 using Backend.Application.Interfaces;
 using Backend.Data.DbContext;
 using Backend.Data.Entity;
 using Backend.SignalR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -37,6 +39,8 @@ namespace Backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSignalR();
+            //Crors
+            services.AddCors();
             //AutoMapper
 
             services.AddAutoMapper(typeof(Startup));
@@ -48,7 +52,7 @@ namespace Backend
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IRegionService, RegionService>();
             //Controller
-            services.AddControllers();
+            services.AddControllersWithViews();
             // DB COntexxt
 
             services.AddDbContext<NewsAppDbContext>(options =>
@@ -105,8 +109,17 @@ namespace Backend
                 });
             });
 
-            //Crors
-            services.AddCors();
+            //Authorization
+            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+            services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy(Permissions.Posts.View, buider =>
+            //    {
+            //        buider.AddRequirements(new PermissionRequirement(Permissions.Posts.View));
+            //    });
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -116,24 +129,20 @@ namespace Backend
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Backend v1"));
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseRouting();
             app.UseAuthentication();
 
-            app.UseRouting();
-
             app.UseAuthorization();
-
             // global cors policy
             app.UseCors(x => x
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .SetIsOriginAllowed(origin => true) // allow any origin
                 .AllowCredentials()); // allow credentials
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Backend v1"));
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

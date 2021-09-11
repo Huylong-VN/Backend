@@ -1,4 +1,5 @@
-﻿using Backend.Application.Interfaces;
+﻿using Backend.Application.Authorization;
+using Backend.Application.Interfaces;
 using Backend.SignalR;
 using Backend.ViewModels.Common;
 using Backend.ViewModels.Posts;

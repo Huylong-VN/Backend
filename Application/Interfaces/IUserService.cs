@@ -17,5 +17,7 @@ namespace Backend.Application.Interfaces
         Task<ApiResult<UserVm>> UpdateAsync(Guid Id, UpdateUserDto request);
 
         Task<bool> DeleteAsync(Guid Id);
+
+        Task<bool> PermissionUser(Guid Id, string claimValue);
     }
 }

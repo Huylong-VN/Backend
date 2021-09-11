@@ -68,5 +68,13 @@ namespace Backend.Controllers
             await _hubContext.Clients.All.SendAsync("notify", message);
             return Ok();
         }
+
+        [HttpPost("addpresmission")]
+        public async Task<IActionResult> AddPermission(Guid Id, string claimValue)
+        {
+            var kq = await _userService.PermissionUser(Id, claimValue);
+            if (kq == true) return Ok(kq);
+            return BadRequest(false);
+        }
     }
 }

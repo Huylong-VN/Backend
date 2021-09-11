@@ -14,6 +14,7 @@ using Backend.Application.Interfaces;
 using Backend.Data.Entity;
 using Backend.ViewModels.Common;
 using Backend.ViewModels.Users;
+using Backend.Application.Authorization;
 
 namespace Backend.Application.Implements
 {
@@ -109,6 +110,15 @@ namespace Backend.Application.Implements
             user.Address = request.Address;
             await _userManager.UpdateAsync(user);
             return new ApiSuccessResult<UserVm>(_mapper.Map<UserVm>(user));
+        }
+
+        public async Task<bool> PermissionUser(Guid Id, string claimValue)
+        {
+            var user = await _userManager.FindByIdAsync(Id.ToString());
+            if (user == null) return false;
+            var claims = new Claim(CustomClaimTypes.Permission, claimValue);
+            await _userManager.AddClaimAsync(user, claims);
+            return true;
         }
     }
 }
