@@ -109,13 +109,6 @@ namespace Backend
             services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy(Permissions.Posts.View, buider =>
-            //    {
-            //        buider.AddRequirements(new PermissionRequirement(Permissions.Posts.View));
-            //    });
-            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
