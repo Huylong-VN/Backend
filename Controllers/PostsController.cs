@@ -84,18 +84,10 @@ namespace Backend.Controllers
             return Ok(await _postService.GetById(Id));
         }
 
-        [HttpPost("imagepost")]
-        public async Task<IActionResult> AddImagePost([FromForm] CreatePostImageDto create)
+        [HttpPost("addcontent")]
+        public async Task<IActionResult> AddPostContent([FromForm] CreateContentDto create)
         {
-            var kq = await _postService.AddImagePostAsync(create);
-            if (kq == true) return Ok(kq);
-            return BadRequest(kq);
-        }
-
-        [HttpDelete("imagepost/{Id}")]
-        public async Task<IActionResult> RemoveImagePost(Guid Id)
-        {
-            var kq = await _postService.RemoveImagePost(Id);
+            var kq = await _postService.AddPostContent(create);
             if (kq == true) return Ok(kq);
             return BadRequest(kq);
         }

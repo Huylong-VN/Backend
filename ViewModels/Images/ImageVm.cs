@@ -9,5 +9,6 @@ namespace Backend.ViewModels.Images
         public string Size { set; get; }
         public DateTime CreateAt { set; get; }
         public DateTime UpdateAt { set; get; }
+        public bool isDefault { set; get; }
     }
 }

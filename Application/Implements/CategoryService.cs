@@ -6,7 +6,6 @@ using Backend.ViewModels.Categories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Backend.Application.Implements
@@ -24,7 +23,11 @@ namespace Backend.Application.Implements
 
         public async Task<bool> CreateAsync(CreateCategoryDto request)
         {
-            var category = _mapper.Map<Category>(request);
+            var category = new Category()
+            {
+                CreateAt = DateTime.Now,
+                Name = request.Name
+            };
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
             return true;

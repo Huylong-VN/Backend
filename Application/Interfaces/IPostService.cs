@@ -1,7 +1,5 @@
 ﻿using Backend.ViewModels.Common;
-using Backend.ViewModels.Images;
 using Backend.ViewModels.Posts;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,11 +10,11 @@ namespace Backend.Application.Interfaces
     {
         Task<PagedResultDto<PostVm>> GetListAsync(PagedAndSortedResultRequestDto request);
 
-        Task<ApiResult<PostVm>> CreateAsync(CreatePostDto request);
+        Task<ApiResult<bool>> CreateAsync(CreatePostDto request);
 
         Task<PostVm> GetById(Guid Id);
 
-        Task<bool> AddImagePostAsync(CreatePostImageDto create);
+        Task<bool> AddPostContent(CreateContentDto create);
 
         Task<ApiResult<PostVm>> UpdateAsync(Guid Id, UpdatePostDto request);
 
@@ -25,7 +23,5 @@ namespace Backend.Application.Interfaces
         Task<bool> DeletePostRegionAsync(Guid postId, Guid regionId);
 
         Task<List<ListResultDto>> GetListCategory();
-
-        Task<bool> RemoveImagePost(Guid Id);
     }
 }

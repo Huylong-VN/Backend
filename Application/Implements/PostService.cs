@@ -4,6 +4,7 @@ using Backend.Data.DbContext;
 using Backend.Data.Entity;
 using Backend.ViewModels.Categories;
 using Backend.ViewModels.Common;
+using Backend.ViewModels.Contents;
 using Backend.ViewModels.Images;
 using Backend.ViewModels.Posts;
 using Backend.ViewModels.Regions;
@@ -41,39 +42,53 @@ namespace Backend.Application.Implements
             return fileName;
         }
 
-        public async Task<ApiResult<PostVm>> CreateAsync(CreatePostDto request)
+        public async Task<ApiResult<bool>> CreateAsync(CreatePostDto request)
         {
-            var post = _mapper.Map<Post>(request);
-            post.CreateAt = DateTime.Now;
-
+            var post = new Post()
+            {
+                CreateAt = DateTime.Now,
+                CategoryId = request.CategoryId,
+                Title = request.Title
+            };
+            _context.Posts.Add(post);
+            var postContent = new Content()
+            {
+                PostId = post.Id,
+                ContentItem = request.Content,
+                CreateAt = DateTime.Now,
+            };
+            _context.Contents.Add(postContent);
             if (request.Image != null)
             {
-                post.Images = new List<Image>
+                var image = new Image()
                 {
-                    new Image
-                    {
-                        Path=await SaveFile(request.Image),
-                        CreateAt=DateTime.Now,
-                        Size=request.Image.Length.ToString()
-                    }
+                    ContentId = postContent.Id,
+                    CreateAt = DateTime.Now,
+                    Path = await SaveFile(request.Image),
+                    Size = request.Image.Length,
+                    isDefault = true
                 };
+                _context.Images.Add(image);
             }
-            var result = _context.Posts.Add(post);
+
             foreach (var regionId in request.RegionId)
             {
-                var pr = new PostRegion() { PostId = result.Entity.Id, RegionId = regionId };
+                var pr = new PostRegion() { PostId = post.Id, RegionId = regionId };
+
                 _context.PostRegions.Add(pr);
+
                 await _context.SaveChangesAsync();
             }
+
             await _context.SaveChangesAsync();
-            return new ApiSuccessResult<PostVm>(_mapper.Map<PostVm>(result.Entity));
+            return new ApiSuccessResult<bool>();
         }
 
         public async Task<bool> DeleteAsync(Guid Id)
         {
             var post = await _context.Posts.FindAsync(Id);
             if (post == null) return false;
-            var images = _context.Images.Where(x => x.PostId.Equals(Id));
+            var images = _context.Images.Where(x => x.ContentId.Equals(Id));
             foreach (var image in images)
             {
                 await _storageService.DeleteFileAsync(image.Path);
@@ -86,7 +101,7 @@ namespace Backend.Application.Implements
 
         public async Task<PagedResultDto<PostVm>> GetListAsync(PagedAndSortedResultRequestDto request)
         {
-            var query = _context.Posts.Include(x => x.Images).Include(x => x.Category).Include(x => x.PostRegions).ThenInclude(x => x.Region);
+            var query = _context.Posts.Include(x => x.Contents).ThenInclude(x => x.Images).Include(x => x.Category).Include(x => x.PostRegions).ThenInclude(x => x.Region);
             if (!string.IsNullOrWhiteSpace(request.Filter))
             {
                 query.Where(x => x.Title.Contains(request.Filter));
@@ -110,10 +125,10 @@ namespace Backend.Application.Implements
         {
             var post = await _context.Posts.FindAsync(Id);
             if (post == null) return new ApiErrorResult<PostVm>("Khong tim thay with Id:" + Id);
-            post.Content = request.Content;
             post.Title = request.Title;
             post.CategoryId = request.CategoryId;
             post.UpdateAt = DateTime.Now;
+
             _context.Posts.Update(post);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<PostVm>(_mapper.Map<PostVm>(post));
@@ -130,33 +145,68 @@ namespace Backend.Application.Implements
 
         public async Task<PostVm> GetById(Guid Id)
         {
-            var query = await _context.Posts.Include(x => x.Images)
+            var query = await _context.Posts.Include(x => x.Contents)
                 .Include(x => x.Category)
                 .Include(x => x.PostRegions).ThenInclude(x => x.Region)
                 .Where(x => x.Id.Equals(Id)).AsSplitQuery().FirstOrDefaultAsync();
             return _mapper.Map<PostVm>(query);
         }
 
-        public async Task<bool> AddImagePostAsync(CreatePostImageDto create)
+        public async Task<bool> AddPostContent(CreateContentDto create)
         {
-            var postImage = new Image()
+            var post = await _context.Posts.FindAsync(create.postId);
+            if (post == null) return false;
+
+            var postContent = new Content()
             {
                 PostId = create.postId,
+                ContentItem = create.content,
                 CreateAt = DateTime.Now,
-                Path = await SaveFile(create.image),
-                Size = create.image.Length.ToString()
             };
-            _context.Images.Add(postImage);
+            _context.Contents.Add(postContent);
+            if (create.image != null)
+            {
+                foreach (var img in create.image)
+                {
+                    var image = new Image()
+                    {
+                        ContentId = postContent.Id,
+                        CreateAt = DateTime.Now,
+                        Path = await SaveFile(img),
+                        Size = img.Length,
+                    };
+                    _context.Images.Add(image);
+                }
+            };
             await _context.SaveChangesAsync();
             return true;
         }
 
-        public async Task<bool> RemoveImagePost(Guid Id)
+        public async Task<bool> RemoveImagePostContent(Guid Id)
         {
             var image = await _context.Images.FindAsync(Id);
             if (image == null) return false;
             _context.Images.Remove(image);
             await _storageService.DeleteFileAsync(image.Path);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UpdateContentAsync(UpdateContentDto request)
+        {
+            var content = await _context.Contents.FindAsync(request.ContentId);
+            if (content == null) return false;
+            content.ContentItem = request.ContentItem;
+            _context.Contents.Update(content);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteContentAsync(Guid Id)
+        {
+            var content = await _context.Contents.FindAsync(Id);
+            if (content == null) return false;
+            _context.Contents.Remove(content);
             await _context.SaveChangesAsync();
             return true;
         }

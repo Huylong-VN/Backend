@@ -1,6 +1,6 @@
 ﻿using Backend.Data.Entity;
 using Backend.ViewModels.Categories;
-using Backend.ViewModels.Images;
+using Backend.ViewModels.Contents;
 using Backend.ViewModels.Regions;
 using System;
 using System.Collections.Generic;
@@ -11,8 +11,7 @@ namespace Backend.ViewModels.Posts
     {
         public Guid Id { set; get; }
         public string Title { set; get; }
-        public string Content { set; get; }
-        public List<ImageVm> Images { set; get; }
+        public List<ContentVm> Contents { set; get; }
         public CategoryVm Category { set; get; }
         public List<RegionVm> Region { set; get; }
         public DateTime CreateAt { set; get; }

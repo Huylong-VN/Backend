@@ -2,6 +2,7 @@
 using Backend.Data.Entity;
 using Backend.ViewModels.Categories;
 using Backend.ViewModels.Common;
+using Backend.ViewModels.Contents;
 using Backend.ViewModels.Images;
 using Backend.ViewModels.Posts;
 using Backend.ViewModels.Regions;
@@ -26,6 +27,7 @@ namespace Backend.AutoMapper
             CreateMap<Region, RegionVm>().ReverseMap();
             CreateMap<Region, CreateRegionDto>().ReverseMap();
             CreateMap<Region, UpdateRegionDto>().ReverseMap();
+            CreateMap<Content, ContentVm>().ForMember(x => x.Images, x => x.MapFrom(x => x.Images)).ReverseMap();
         }
     }
 }

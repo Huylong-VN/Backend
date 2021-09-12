@@ -6,11 +6,12 @@ namespace Backend.Data.Entity
     {
         public Guid Id { set; get; }
         public string Path { set; get; }
-        public string Size { set; get; }
+        public long Size { set; get; }
         public DateTime CreateAt { set; get; }
         public DateTime UpdateAt { set; get; }
+        public bool isDefault { set; get; }
 
-        public Guid PostId { set; get; }
-        public Post Post { set; get; }
+        public Guid ContentId { set; get; }
+        public Content Content { set; get; }
     }
 }

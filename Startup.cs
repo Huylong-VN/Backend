@@ -44,6 +44,7 @@ namespace Backend
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IRegionService, RegionService>();
+            services.AddTransient<IContentService, ContentService>();
             services.AddCors();
 
             //Controller
@@ -108,7 +109,6 @@ namespace Backend
             //Authorization
             services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
