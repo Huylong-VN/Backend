@@ -145,7 +145,7 @@ namespace Backend.Application.Implements
 
         public async Task<PostVm> GetById(Guid Id)
         {
-            var query = await _context.Posts.Include(x => x.Contents)
+            var query = await _context.Posts.Include(x => x.Contents).ThenInclude(x => x.Images)
                 .Include(x => x.Category)
                 .Include(x => x.PostRegions).ThenInclude(x => x.Region)
                 .Where(x => x.Id.Equals(Id)).AsSplitQuery().FirstOrDefaultAsync();

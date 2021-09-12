@@ -141,5 +141,4 @@ E:\Test Solution Of C# - Important\Backend\Backend\obj\Debug\net5.0\Backend.genr
 E:\Test Solution Of C# - Important\Backend\Backend\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 E:\Test Solution Of C# - Important\Backend\Backend\obj\Debug\net5.0\Backend.csproj.AssemblyReference.cache
 E:\Test Solution Of C# - Important\Backend\Backend\bin\Debug\net5.0\Backend.Views.dll
-E:\Test Solution Of C# - Important\Backend\Backend\bin\Debug\net5.0\Backend.Views.pdb
 E:\Test Solution Of C# - Important\Backend\Backend\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
