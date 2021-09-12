@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\store-image\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>
