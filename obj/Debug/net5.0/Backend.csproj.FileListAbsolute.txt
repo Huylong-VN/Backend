@@ -142,12 +142,4 @@ E:\Test Solution Of C# - Important\Backend\Backend\bin\Debug\net5.0\Microsoft.As
 E:\Test Solution Of C# - Important\Backend\Backend\obj\Debug\net5.0\Backend.csproj.AssemblyReference.cache
 E:\Test Solution Of C# - Important\Backend\Backend\bin\Debug\net5.0\Backend.Views.dll
 E:\Test Solution Of C# - Important\Backend\Backend\bin\Debug\net5.0\Backend.Views.pdb
-E:\Test Solution Of C# - Important\Backend\Backend\obj\Debug\net5.0\Backend.RazorAssemblyInfo.cache
-E:\Test Solution Of C# - Important\Backend\Backend\obj\Debug\net5.0\Backend.RazorAssemblyInfo.cs
-E:\Test Solution Of C# - Important\Backend\Backend\obj\Debug\net5.0\Backend.TagHelpers.input.cache
-E:\Test Solution Of C# - Important\Backend\Backend\obj\Debug\net5.0\Backend.TagHelpers.output.cache
-E:\Test Solution Of C# - Important\Backend\Backend\obj\Debug\net5.0\Backend.RazorCoreGenerate.cache
-E:\Test Solution Of C# - Important\Backend\Backend\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
-E:\Test Solution Of C# - Important\Backend\Backend\obj\Debug\net5.0\Backend.RazorTargetAssemblyInfo.cs
-E:\Test Solution Of C# - Important\Backend\Backend\obj\Debug\net5.0\Backend.Views.pdb
 E:\Test Solution Of C# - Important\Backend\Backend\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
