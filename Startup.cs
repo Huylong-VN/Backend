@@ -122,9 +122,9 @@ namespace Backend
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Backend v1"));
             app.UseHttpsRedirection();
             //app.UseDeveloperExceptionPage();
-            app.UseStaticFiles();
             app.UseAuthentication();
             app.UseRouting();
+            app.UseStaticFiles();
             // global cors policy
             app.UseCors(x => x
                 .AllowAnyMethod()
