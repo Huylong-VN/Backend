@@ -48,7 +48,7 @@ namespace Backend
             services.AddCors();
 
             //Controller
-            services.AddControllersWithViews();
+            services.AddControllers();
             // DB COntexxt
 
             services.AddDbContext<NewsAppDbContext>(options =>
@@ -107,8 +107,8 @@ namespace Backend
             });
 
             //Authorization
-            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-            services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            //services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+            //services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -120,11 +120,14 @@ namespace Backend
             }
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Backend v1"));
+
             app.UseHttpsRedirection();
             //app.UseDeveloperExceptionPage();
-            app.UseAuthentication();
             app.UseRouting();
             app.UseStaticFiles();
+
+            app.UseAuthentication();
+
             // global cors policy
             app.UseCors(x => x
                 .AllowAnyMethod()
