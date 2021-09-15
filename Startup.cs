@@ -122,7 +122,6 @@ namespace Backend
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Backend v1"));
 
             app.UseHttpsRedirection();
-            //app.UseDeveloperExceptionPage();
             app.UseRouting();
             app.UseStaticFiles();
 
